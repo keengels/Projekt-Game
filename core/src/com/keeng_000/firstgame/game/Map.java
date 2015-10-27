@@ -77,7 +77,7 @@ public class Map {
     public int getGroundPos(){return this.groundPos;}
 
     public ArrayList createMapFromString(String map){
-        //Erstellt eine Map aus einem String
+        //Erstellt eine Map aus einem String 
         ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
 
         return mapElements;
