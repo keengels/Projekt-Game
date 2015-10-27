@@ -76,3 +76,6 @@ public class Map {
 
     public int getGroundPos(){return this.groundPos;}
 }
+
+
+//hallo miteinander
