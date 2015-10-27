@@ -47,7 +47,7 @@ public class GameDraw extends ApplicationAdapter{
         //Render Sky
         batch.draw(map.getBackGroundSky(),map.getBackGroundSkyXPos(),0,2000 ,3000);
 
-        //Render Hero
+        //Render Hero Hallo
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
 
         //Render Mapelemente
