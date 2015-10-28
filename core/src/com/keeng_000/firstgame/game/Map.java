@@ -55,7 +55,7 @@ public class Map {
             xPos += 200;
         }
         */
-        mapElements = this.createMapFromString("###########");
+        mapElements = this.createMapFromString("######0000#####");
     }
 
     public ArrayList getMapElements(){
@@ -87,7 +87,10 @@ public class Map {
         ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
         for(int i= 0;i< myChars.length;i++){
             if(myChars[i]=='#') {
-                mapElements.add(new MapElement(xpos, 100, "traeger.png"));
+                mapElements.add(new Ground(xpos, 100));
+                xpos += 200;
+            }else if(myChars[i]=='0'){
+                mapElements.add(new EmptyGround(xpos, 100));
                 xpos += 200;
             }
         }
