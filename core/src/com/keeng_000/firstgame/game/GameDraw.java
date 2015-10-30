@@ -44,8 +44,14 @@ public class GameDraw extends ApplicationAdapter{
         batch.begin();
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
+
+        //Sounds
+        Sounds.load("sounds/pulselow.ogg", "pulselow");
+        Sounds.play("pulselow");
+        Sounds.loop("pulselow");
+
         //Render Sky
-        batch.draw(map.getBackGroundSky(),map.getBackGroundSkyXPos(),0,2000 ,3000);
+        batch.draw(map.getBackGroundSky(), map.getBackGroundSkyXPos(), 0, 2000, 3000);
 
         //Render Hero
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());

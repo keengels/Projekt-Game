@@ -43,6 +43,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
+
+
 	}
 
 
