@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.StringTokenizer;
 
 /**
  * Created by keeng_000 on 15.10.2015.
@@ -38,13 +39,14 @@ public class Map {
     private int groundPos = 200;
     Texture backGroundSky;
     Texture backGroundOlaf;
-    ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
+    ArrayList<MapElement> mapElements;
 
     private float backGroundSkyYPos = 0, getBackGroundSkyXPos = 0;
 
 
     public Map(){
         backGroundSky = new Texture("wolken.jpg");
+        /*
         int xPos = 0;
         int yPos = 100;
 
@@ -52,6 +54,8 @@ public class Map {
             mapElements.add(new MapElement(xPos, yPos, "traeger.png"));
             xPos += 200;
         }
+        */
+        mapElements = this.createMapFromString("######0000#####");
     }
 
     public ArrayList getMapElements(){
@@ -75,6 +79,24 @@ public class Map {
     }
 
     public int getGroundPos(){return this.groundPos;}
+
+    public ArrayList createMapFromString(String map){
+        //Erstellt eine Map aus einem String
+        char[] myChars = map.toCharArray();
+        int xpos = 0;
+        ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
+        for(int i= 0;i< myChars.length;i++){
+            if(myChars[i]=='#') {
+                mapElements.add(new Ground(xpos, 100));
+                xpos += 200;
+            }else if(myChars[i]=='0'){
+                mapElements.add(new EmptyGround(xpos, 100));
+                xpos += 200;
+            }
+        }
+
+        return mapElements;
+    }
 }
 
 
