@@ -56,6 +56,7 @@ public class GameDraw extends ApplicationAdapter{
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
 
+
         batch.end();
     }
 

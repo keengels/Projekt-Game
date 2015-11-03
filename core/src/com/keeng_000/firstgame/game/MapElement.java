@@ -31,7 +31,7 @@ public class MapElement {
     }
 
     public void setXPos(){
-        this.xPos -= 1;
+        this.xPos -= 3;
     }
 
     public void setYPos(){
