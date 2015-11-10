@@ -86,7 +86,7 @@ public class Map {
     public ArrayList createMapFromString(String map){
         //Erstellt eine Map aus einem String
         char[] myChars = map.toCharArray();
-        int xpos = 0;
+        int xpos = 0; 
         ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
         for(int i= 0;i< myChars.length;i++){
             if(myChars[i]=='#') {
