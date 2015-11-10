@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	private Mus ic music_level1;
+	private Music music_level1;
 	Actor actor;
 	SpriteBatch batch;
 	public EventHandler eventHandler;
@@ -77,8 +77,6 @@ public class MyGdxGame extends ApplicationAdapter {
 		if(elapsedTime > 50f){
 			elapsedTime = 0f;
 		}
-
-		//Sounds.play("extralife");
 
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

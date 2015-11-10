@@ -18,8 +18,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -34,7 +32,6 @@ public class Hero {
     private String heroState="move";
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
-    private ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
 
     Texture img;
     Animation animation;
@@ -46,7 +43,6 @@ public class Hero {
 
             this.xPos = 100;
             this.yPos = 200;
-            this.mapElements = this.map.getMapElements();
 
             if(this.prepareAnimations()){
                 System.out.println("Hero-Class: Hero-Animations loaded.");
@@ -75,14 +71,12 @@ public class Hero {
 
         //Aktualisierung des Helden
         if(this.heroState == "jump" && this.maxJumpHeight >= this.yPos){
-            //Sounds.stop("extralife");
-            Sounds.play("extralife");
+            Sounds.play("shoot");
             this.yPos +=40;
 
             if(this.yPos >= this.maxJumpHeight){
                 this.heroState = "fall";
             }
-            Sounds.loop("extralife");
         }
 
         if(this.yPos != map.getGroundPos() && this.heroState == "fall"){
