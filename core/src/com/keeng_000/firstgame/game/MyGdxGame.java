@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MyGdxGame extends ApplicationAdapter {
 
-	private Music music_level1;
+	private Mus ic music_level1;
 	Actor actor;
 	SpriteBatch batch;
 	public EventHandler eventHandler;
