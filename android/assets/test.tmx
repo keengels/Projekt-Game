@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="16" tileheight="16">
+ <tileset firstgid="1" name="jumpnrun" tilewidth="16" tileheight="16">
+  <tileoffset x="1" y="1"/>
+  <image source="../Downloads/CdH_TILES.png" trans="ff00ff" width="320" height="320"/>
+ </tileset>
+ <imagelayer name="Bildebene 1" width="50" height="50">
+  <image source="WPP Android/Projekt-Game/android/assets/wolken.jpg"/>
+ </imagelayer>
+ <layer name="Kachelebene 1" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJzt0NEJACAIQMHWrnZo5gpyA0GIO3i/orYGAAAA9NOsXiLBelW5fxwJxR0ZsyIAAAAAAP63AblZFM4=
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" width="50" height="50">
+  <object x="1" y="338" width="625" height="14"/>
+  <object x="291" y="306" width="29" height="38"/>
+ </objectgroup>
+</map>
