@@ -71,14 +71,18 @@ public class Hero {
 
         //Aktualisierung des Helden
         if(this.heroState == "jump" && this.maxJumpHeight >= this.yPos){
+            Sounds.stop("extralife");
+            Sounds.play("shoot");
             this.yPos +=40;
 
             if(this.yPos >= this.maxJumpHeight){
                 this.heroState = "fall";
             }
+            Sounds.loop("extralife");
         }
 
         if(this.yPos != map.getGroundPos() && this.heroState == "fall"){
+            Sounds.play("thruster");
             this.yPos -= this.gravity;
 
             if(this.yPos < map.getGroundPos()){

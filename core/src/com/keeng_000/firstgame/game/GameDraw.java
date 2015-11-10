@@ -45,10 +45,7 @@ public class GameDraw extends ApplicationAdapter{
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
 
-        //Sounds
-        Sounds.load("sounds/pulselow.ogg", "pulselow");
-        Sounds.play("pulselow");
-        Sounds.loop("pulselow");
+
 
         //Render Sky
         batch.draw(map.getBackGroundSky(), map.getBackGroundSkyXPos(), 0, 2000, 3000);

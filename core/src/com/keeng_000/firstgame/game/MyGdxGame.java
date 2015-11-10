@@ -33,6 +33,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	long endtime;
 	float elapsedTime;
 
+
+
 	@Override
 	public void create () {
 		map = new Map();
@@ -44,6 +46,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
 
+		//Sounds laden
+		Sounds.load("sounds/extralife.ogg", "extralife");
+		Sounds.load("sounds/shoot.ogg","shoot");
+		Sounds.load("sounds/thruster.ogg","thruster");
 
 	}
 
@@ -65,6 +71,8 @@ public class MyGdxGame extends ApplicationAdapter {
 			elapsedTime = 0f;
 		}
 
+		//Sounds.play("extralife");
+		Sounds.loop("extralife");
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameDraw.render(elapsedTime);
