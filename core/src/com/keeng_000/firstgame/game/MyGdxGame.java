@@ -2,6 +2,8 @@ package com.keeng_000.firstgame.game;
 
 import com.badlogic.ashley.signals.Listener;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -22,6 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MyGdxGame extends ApplicationAdapter {
 
+	private Music music_level1;
 	Actor actor;
 	SpriteBatch batch;
 	public EventHandler eventHandler;
@@ -51,8 +54,12 @@ public class MyGdxGame extends ApplicationAdapter {
 		//Sounds laden
 		Sounds.load("sounds/extralife.ogg", "extralife");
 		Sounds.load("sounds/shoot.ogg","shoot");
-		Sounds.load("sounds/thruster.ogg","thruster");
+		Sounds.load("sounds/thruster.ogg", "thruster");
+		Sounds.load("sounds/fever.mp3", "fever");
 
+		music_level1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/fever.mp3"));
+		music_level1.setLooping(true);
+		music_level1.play();
 	}
 
 
@@ -74,8 +81,6 @@ public class MyGdxGame extends ApplicationAdapter {
 			elapsedTime = 0f;
 		}
 
-		//Sounds.play("extralife");
-		Sounds.loop("extralife");
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameDraw.render(elapsedTime);
