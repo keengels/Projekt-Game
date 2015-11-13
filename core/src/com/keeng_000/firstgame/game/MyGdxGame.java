@@ -28,6 +28,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public Map map;
 	public Hero hero;
 	private GameDraw gameDraw;
+	private TieledTest tt;
 	private InputListener inputListener;
 
 	long endtime;
@@ -45,6 +46,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
+		tt = new TieledTest();
 
 		//Sounds laden
 		Sounds.load("sounds/extralife.ogg", "extralife");
@@ -63,6 +65,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+		/*
 		this.engine();
 		//update();
 		elapsedTime += Gdx.graphics.getDeltaTime();
@@ -76,6 +79,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameDraw.render(elapsedTime);
+		*/
+		tt.render();
 	}
 
 }
