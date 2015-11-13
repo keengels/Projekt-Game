@@ -55,7 +55,8 @@ public class Map {
             xPos += 200;
         }
         */
-        mapElements = this.createMapFromString("######0000#####");
+        //mapElements = this.createMapFromString("###1##0#####");
+        mapElements = this.createMap();
     }
 
     public ArrayList getMapElements(){
@@ -80,10 +81,12 @@ public class Map {
 
     public int getGroundPos(){return this.groundPos;}
 
+    public void setGroundPos(int ground){this.groundPos = ground;}
+
     public ArrayList createMapFromString(String map){
         //Erstellt eine Map aus einem String
         char[] myChars = map.toCharArray();
-        int xpos = 0;
+        int xpos = 0; 
         ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
         for(int i= 0;i< myChars.length;i++){
             if(myChars[i]=='#') {
@@ -92,9 +95,29 @@ public class Map {
             }else if(myChars[i]=='0'){
                 mapElements.add(new EmptyGround(xpos, 100));
                 xpos += 200;
+            }else if(myChars[i]=='1'){
+                mapElements.add(new Ground(xpos, 300));
+                xpos += 200;
             }
         }
 
+        return mapElements;
+    }
+    public ArrayList createMap(){
+        int xpos = 0;
+        ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
+        for(int i = 0; i<100;i++){
+            if(i%10 == 3){
+                mapElements.add(new Ground(xpos, 300));
+                xpos += 200;
+            }else if(i%10 == 5){
+                mapElements.add(new EmptyGround(xpos, 100));
+                xpos += 200;
+            }else{
+                mapElements.add(new Ground(xpos, 100));
+                xpos += 200;
+            }
+        }
         return mapElements;
     }
 }

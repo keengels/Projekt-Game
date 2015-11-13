@@ -31,8 +31,8 @@ public class MapElement {
     }
 
     public void setXPos(){
-        this.xPos -= 5;
-    }   //Gamespeed noch hinzufügen
+        this.xPos -= 3;
+    }
 
     public void setYPos(){
         this.setYPos();

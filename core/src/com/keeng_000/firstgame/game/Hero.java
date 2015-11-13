@@ -28,10 +28,11 @@ public class Hero {
     private int width = 100;
     private int height = 100;
     private int maxJumpHeight = 500;
-    private int gravity = 20;
+    private int gravity = 15;
     private String heroState="move";
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
+
 
     Texture img;
     Animation animation;
@@ -71,8 +72,7 @@ public class Hero {
 
         //Aktualisierung des Helden
         if(this.heroState == "jump" && this.maxJumpHeight >= this.yPos){
-            Sounds.play("shoot");
-            this.yPos +=40;
+            this.yPos +=30;
 
             if(this.yPos >= this.maxJumpHeight){
                 this.heroState = "fall";
@@ -80,7 +80,7 @@ public class Hero {
         }
 
         if(this.yPos != map.getGroundPos() && this.heroState == "fall"){
-            Sounds.play("thruster");
+
             this.yPos -= this.gravity;
 
             if(this.yPos < map.getGroundPos()){
