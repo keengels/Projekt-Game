@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -37,6 +38,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	long endtime;
 	float elapsedTime;
 
+	public BitmapFont font;
+
 
 
 	@Override
@@ -47,6 +50,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		eventHandler = new EventHandler(hero);
 		endtime = System.currentTimeMillis();
 		batch = new SpriteBatch();
+		font = new BitmapFont();
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
 		tt = new TieledTest();
@@ -85,7 +89,24 @@ public class MyGdxGame extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameDraw.render(elapsedTime);
 		*/
+
+		float timeState=0f;
+		timeState+=Gdx.graphics.getDeltaTime();
+		if(timeState>=1f) {
+			// 1 second just passed
+			timeState = 0f; // reset
+			updateEverySecond(); // call the function that you want
+		}
 		tt.render();
+	}
+	public void updateEverySecond() {
+		int score=0;
+		score += 5;
+		showScore(score);
+	}
+	public void showScore(int score) {
+		font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		font.draw(batch, "Score: " + score, 25, 100);
 	}
 
 }
