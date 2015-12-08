@@ -21,21 +21,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 /**
  * Created by keeng_000 on 15.10.2015.
  */
 public class Map {
-
-    /*
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        00000000000000000000000#########00000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        ########################000000000#####################################
-     */
-
     private int groundPos = 200;
     Texture backGroundSky;
     Texture backGroundOlaf;
@@ -45,26 +38,22 @@ public class Map {
 
 
     public Map(){
+
         backGroundSky = new Texture("wolken.jpg");
-        /*
+
         int xPos = 0;
         int yPos = 100;
 
-        for(int i = 0; i<10; i++){
-            mapElements.add(new MapElement(xPos, yPos, "traeger.png"));
-            xPos += 200;
-        }
-        */
-        //mapElements = this.createMapFromString("###1##0#####");
         mapElements = this.createMap();
     }
+
 
     public ArrayList getMapElements(){
         return this.mapElements;
     }
 
-    public void updateBackgroundSky(){
-        this.getBackGroundSkyXPos-=0.1;
+    public void updateBackgroundSky(int xPos){
+        this.getBackGroundSkyXPos =(float)(xPos*(-0.1));
     }
 
     public Texture getBackGroundSky(){
@@ -82,36 +71,33 @@ public class Map {
     public int getGroundPos(){return this.groundPos;}
 
     public void setGroundPos(int ground){this.groundPos = ground;}
+/*
+    public void addNewMapElement(){
+        if(mapElementStack.getLast() == null){
 
-    public ArrayList createMapFromString(String map){
-        //Erstellt eine Map aus einem String
-        char[] myChars = map.toCharArray();
-        int xpos = 0; 
-        ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
-        for(int i= 0;i< myChars.length;i++){
-            if(myChars[i]=='#') {
-                mapElements.add(new Ground(xpos, 100));
-                xpos += 200;
-            }else if(myChars[i]=='0'){
-                mapElements.add(new EmptyGround(xpos, 100));
-                xpos += 200;
-            }else if(myChars[i]=='1'){
-                mapElements.add(new Ground(xpos, 300));
-                xpos += 200;
+            System.out.println("letztes Element ist null");
+            mapElementStack.add(new MapElement());
+        } else{
+            System.out.println("Map Element");
+            Random rand = new Random();
+            int i = rand.nextInt();
+            System.out.println(i%10);
+            if(i%10 > 5){
+                System.out.println("NULL ELEMENT");
+                mapElementStack.add(null);
+            } else{
+                System.out.println("NORMALES ELEMENT");
+                mapElementStack.add(new MapElement());
             }
         }
-
-        return mapElements;
     }
+*/
     public ArrayList createMap(){
         int xpos = 0;
         ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
         for(int i = 0; i<100;i++){
             if(i%10 == 3){
-                mapElements.add(new Ground(xpos, 300));
-                xpos += 200;
-            }else if(i%10 == 5){
-                mapElements.add(new EmptyGround(xpos, 100));
+                mapElements.add(new Ground(xpos, 400));
                 xpos += 200;
             }else{
                 mapElements.add(new Ground(xpos, 100));

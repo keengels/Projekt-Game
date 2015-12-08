@@ -27,16 +27,21 @@ import java.util.ArrayList;
 public class GameDraw extends ApplicationAdapter{
 
     Map map;
-    Texture img;
     Hero hero;
     SpriteBatch batch;
-    Animation animation;
-    TextureRegion[] animationFrames;
+    OrthographicCamera cam;
 
     public GameDraw(SpriteBatch batch, Hero hero, Map map) {
         this.batch = batch;
         this.hero = hero;
         this.map = map;
+
+        cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
+        cam.position.set(hero.getXpos(), hero.getYpos(),0);
+        cam.setToOrtho(true);
+        cam.rotate(180);
+        cam.update();
+
     }
 
     public void render (float elapsedTime) {
@@ -45,6 +50,7 @@ public class GameDraw extends ApplicationAdapter{
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
 
+        batch.setProjectionMatrix(cam.combined);
 
 
         //Render Sky
@@ -55,12 +61,12 @@ public class GameDraw extends ApplicationAdapter{
 
         //Render Mapelemente
         for(int i = 0; i < tmpMapElements.size(); i++){
-            tmpMapElements.get(i).setXPos();
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
-
-
         batch.end();
+
+        cam.position.set(hero.getXpos(), hero.getYpos(), 0);
+        cam.update();
     }
 
     public void dispose(){

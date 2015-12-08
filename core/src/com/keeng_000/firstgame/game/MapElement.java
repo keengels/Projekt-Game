@@ -22,6 +22,14 @@ public class MapElement {
         return this.img;
     }
 
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
     public int getXPos(){
         return this.xPos;
     }
@@ -30,9 +38,6 @@ public class MapElement {
         return this.yPos;
     }
 
-    public void setXPos(){
-        this.xPos -= 3;
-    }
 
     public void setYPos(){
         this.setYPos();

@@ -10,6 +10,7 @@ import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +19,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Array;
+
+import java.sql.Struct;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,25 +30,29 @@ import java.util.HashMap;
  */
 public class Hero {
 
+    private int movementSpeed = 5;
+    private int posEndJump = 0;
     private int width = 100;
     private int height = 100;
     private int maxJumpHeight = 500;
-    private int gravity = 15;
-    private String heroState="move";
+    private int gravity = 10;
+    private String heroState="fall";
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
-
+    private ArrayList<MapElement> allMapElements;
 
     Texture img;
     Animation animation;
     Map map;
     TextureRegion[] animationFrames;
 
+
     public Hero(Map map){
             this.map = map;
 
+            this.allMapElements = map.getMapElements();
             this.xPos = 100;
-            this.yPos = 200;
+            this.yPos = 400;
 
             if(this.prepareAnimations()){
                 System.out.println("Hero-Class: Hero-Animations loaded.");
@@ -57,36 +66,70 @@ public class Hero {
         if(animationContainer.get(state) == null){
             System.out.println("Hero-Class: Animation von Setstate Eventhandler ist nicht in animationContainer vorhanden.");
             return false;
-        }else if(this.yPos == map.getGroundPos()){
-            this.heroState = state;
+        }else{
+            if(state == "jump"){
+                if(this.heroState != "jump" && this.heroState != "fall") {
+                    posEndJump = this.yPos + this.maxJumpHeight;
+                    this.yPos += 20;
+                    this.xPos += movementSpeed;
+                    if (this.heroState == "move") {
+                        this.heroState = state;
+                    }
+                }
+            }
+            else{
+                this.heroState = state;
+            }
+
             return true;
         }
-        return true;
     }
 
     private void checkCollision(){
-
+        boolean kollisionUnten = false;
+        for(int i = 0; i < this.allMapElements.size(); i++){
+            if((this.xPos <= (allMapElements.get(i).getWidth()+allMapElements.get(i).getXPos())) && this.xPos >= allMapElements.get(i).getXPos()){
+                if(this.yPos == (allMapElements.get(i).getHeight()+allMapElements.get(i).getYpos())) {
+                    //Kollision unten
+                    kollisionUnten = true;
+                    this.setState("move");
+                }else if((this.yPos + this.height) == (allMapElements.get(i).getYpos())){
+                    //Kollision oben
+                    this.setState("fall");
+                }else if((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
+                    //Kollision rechts
+                    this.setState("fall");
+                }else if(this.heroState == "move" && kollisionUnten == false){
+                        this.setState("fall");
+                }
+            }
+        }
     }
 
+
     public void heroEngine(){
-
+        if(this.xPos > 1400){
+            this.xPos = 0;
+            this.yPos = 300;
+        }
+        this.checkCollision();
         //Aktualisierung des Helden
-        if(this.heroState == "jump" && this.maxJumpHeight >= this.yPos){
-            this.yPos +=30;
-
-            if(this.yPos >= this.maxJumpHeight){
+        if(this.heroState == "jump"){
+            if(this.posEndJump > this.yPos) {
+                this.yPos += 20;
+                this.xPos += this.movementSpeed;
+            }else{
                 this.heroState = "fall";
             }
         }
 
-        if(this.yPos != map.getGroundPos() && this.heroState == "fall"){
+        if(this.heroState == "move"){
+            this.xPos += this.movementSpeed;
+        }
 
+        if(this.heroState == "fall"){
             this.yPos -= this.gravity;
-
-            if(this.yPos < map.getGroundPos()){
-                this.yPos = map.getGroundPos();
-                heroState = "move";
-            }
+            this.xPos += this.movementSpeed / 2;
         }
     }
 
