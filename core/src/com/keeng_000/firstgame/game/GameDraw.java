@@ -6,6 +6,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -51,7 +52,6 @@ public class GameDraw extends ApplicationAdapter{
 
 
         batch.setProjectionMatrix(cam.combined);
-
 
         //Render Sky
         batch.draw(map.getBackGroundSky(), map.getBackGroundSkyXPos(), 0, 2000, 3000);
