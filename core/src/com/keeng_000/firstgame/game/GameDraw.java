@@ -20,6 +20,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -31,6 +34,7 @@ public class GameDraw extends ApplicationAdapter{
     Hero hero;
     SpriteBatch batch;
     OrthographicCamera cam;
+    Score s = new Score(0);
 
     public GameDraw(SpriteBatch batch, Hero hero, Map map) {
         this.batch = batch;
@@ -38,7 +42,7 @@ public class GameDraw extends ApplicationAdapter{
         this.map = map;
 
         cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
-        cam.position.set(hero.getXpos(), hero.getYpos(),0);
+        cam.position.set(hero.getXpos(), hero.getYpos(), 0);
         cam.setToOrtho(true);
         cam.rotate(180);
         cam.update();
@@ -63,6 +67,10 @@ public class GameDraw extends ApplicationAdapter{
         for(int i = 0; i < tmpMapElements.size(); i++){
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
+
+
+        //s.updateEverySecond();
+
         batch.end();
 
         cam.position.set(hero.getXpos(), hero.getYpos(), 0);

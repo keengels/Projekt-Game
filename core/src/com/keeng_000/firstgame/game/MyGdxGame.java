@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -46,14 +47,9 @@ public class MyGdxGame extends ApplicationAdapter {
 		eventHandler = new EventHandler(hero);
 		endtime = System.currentTimeMillis();
 		batch = new SpriteBatch();
+
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
-
-		//Sounds laden
-		Sounds.load("sounds/extralife.ogg", "extralife");
-		Sounds.load("sounds/shoot.ogg","shoot");
-		Sounds.load("sounds/thruster.ogg", "thruster");
-		Sounds.load("sounds/fever.mp3", "fever");
 
 		music_level1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/fever.mp3"));
 		music_level1.setLooping(true);
@@ -78,9 +74,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			elapsedTime = 0f;
 		}
 
+
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		gameDraw.render(elapsedTime);
 	}
+
+
 
 }
