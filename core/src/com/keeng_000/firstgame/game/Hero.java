@@ -88,7 +88,7 @@ public class Hero {
     private void checkCollision(){
         boolean kollisionUnten = false;
         for(int i = 0; i < this.allMapElements.size(); i++){
-            if((this.xPos <= (allMapElements.get(i).getWidth()+allMapElements.get(i).getXPos())) && this.xPos >= allMapElements.get(i).getXPos()){
+            if((this.xPos <= (allMapElements.get(i).getWidth()+allMapElements.get(i).getXPos())) && this.xPos + this.width >= allMapElements.get(i).getXPos()){
                 if(this.yPos == (allMapElements.get(i).getHeight()+allMapElements.get(i).getYpos())) {
                     //Kollision unten
                     kollisionUnten = true;
@@ -99,7 +99,7 @@ public class Hero {
                 }else if((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
                     //Kollision rechts
                     this.setState("fall");
-                }else if(this.heroState == "move" && kollisionUnten == false){
+                }else if(this.heroState.equals("move") && !kollisionUnten){
                         this.setState("fall");
                 }
             }
@@ -108,10 +108,10 @@ public class Hero {
 
 
     public void heroEngine(){
-        if(this.xPos > 1400){
+        /*if(this.xPos > 1400){
             this.xPos = 0;
             this.yPos = 300;
-        }
+        }*/
         this.checkCollision();
         //Aktualisierung des Helden
         if(this.heroState == "jump"){
