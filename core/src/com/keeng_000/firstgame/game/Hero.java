@@ -86,7 +86,7 @@ public class Hero {
     }
 
     private void checkCollision(){
-        boolean kollisionUnten = false;
+        boolean kollisionUnten = false;// lol
         for(int i = 0; i < this.allMapElements.size(); i++){
             if((this.xPos <= (allMapElements.get(i).getWidth()+allMapElements.get(i).getXPos())) && this.xPos + this.width >= allMapElements.get(i).getXPos()){
                 if(this.yPos == (allMapElements.get(i).getHeight()+allMapElements.get(i).getYpos())) {
