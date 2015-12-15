@@ -11,11 +11,19 @@ public class MapElement {
     private int height = 100;
     private int xPos, yPos;
     private Texture img;
+    public boolean invisible;
 
     public MapElement(int xPos, int yPos, String texture){
         this.xPos = xPos;
         this.yPos = yPos;
         img = new Texture(texture);
+    }
+
+    public MapElement(int xPos, int yPos){
+        this.xPos = xPos;
+        this.yPos = yPos;
+        img = new Texture("traeger.png");
+
     }
 
     public Texture getTexture(){
