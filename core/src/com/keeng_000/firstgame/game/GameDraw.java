@@ -31,11 +31,13 @@ public class GameDraw extends ApplicationAdapter{
     Hero hero;
     SpriteBatch batch;
     OrthographicCamera cam;
+    int oldXpos;
 
     public GameDraw(SpriteBatch batch, Hero hero, Map map) {
         this.batch = batch;
         this.hero = hero;
         this.map = map;
+        this.oldXpos = hero.getXpos();
 
         cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         cam.position.set(hero.getXpos(), hero.getYpos(),0);
@@ -61,9 +63,18 @@ public class GameDraw extends ApplicationAdapter{
 
         //Render Mapelemente
         for(int i = 0; i < tmpMapElements.size(); i++){
+            if(tmpMapElements.get(i) != null)
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
         batch.end();
+
+        if(oldXpos + 1000 < hero.getXpos()){
+            oldXpos += 200;
+            map.addNewMapElement();
+            map.removeMapElement();
+
+        }
+
 
         cam.position.set(hero.getXpos(), hero.getYpos(), 0);
         cam.update();
