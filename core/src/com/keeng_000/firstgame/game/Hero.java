@@ -110,7 +110,11 @@ public class Hero {
 
 
     public void heroEngine(){
+        if(this.yPos < 60){
+            //verlierer
 
+            this.yPos = 150;
+        }
         this.checkCollision();
         //Aktualisierung des Helden
         if(this.heroState == "jump"){
