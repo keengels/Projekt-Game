@@ -22,8 +22,14 @@ public class EventHandler {
     public void handleInput(){
 
         if(Gdx.input.isTouched()){
-            if(!this.hero.setState("jump")){
-                System.out.println("Eventhandler: Konnte HeroState nicht setzen.");
+            if(MyGdxGame.gameRunning) {
+                if (!this.hero.setState("jump")) {
+                    System.out.println("Eventhandler: Konnte HeroState nicht setzen.");
+                }
+            }else{
+                //Hier kommt der Reset
+                MyGdxGame.newGame= true;
+                System.out.println("Test");
             }
         }else if(Gdx.input.getAccelerometerZ()>5 && this.oldAccel <2){
             //Hier wird etwas ausgeführt, wenn das Handy geneigt wird

@@ -30,6 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private FreeTypeFontGenerator.FreeTypeFontParameter freeTypePar;
 	private BitmapFont loserFont;
 	static boolean gameRunning = true;
+	static boolean newGame = false;
 	private Music music_level1;
 	Actor actor;
 	SpriteBatch batch;
@@ -92,9 +93,34 @@ public class MyGdxGame extends ApplicationAdapter {
 			gameDraw.render(elapsedTime);
 		}else
 		{
+			eventHandler.handleInput();
 			batch.begin();
-			loserFont.draw(batch, "Loooooooser", (hero.getXpos()-(Gdx.graphics.getWidth()/3)), hero.getYpos());
+			loserFont.draw(batch, "Loooooooser", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
 			batch.end();
+			if(MyGdxGame.newGame){
+				this.reset();
+			}
 		}
+	}
+
+	public void reset(){
+		MyGdxGame.gameRunning = true;
+		MyGdxGame.newGame = false;
+
+
+		map = new Map();
+		actor = new Actor();
+		hero = new Hero(map);
+		eventHandler = new EventHandler(hero);
+		endtime = System.currentTimeMillis();
+		batch = new SpriteBatch();
+
+		gameDraw = new GameDraw(batch, hero, map);
+		elapsedTime = 0f;
+
+		music_level1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/fever.mp3"));
+		music_level1.setLooping(true);
+		music_level1.play();
+
 	}
 }
