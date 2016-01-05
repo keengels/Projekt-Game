@@ -92,7 +92,7 @@ public class Map {
             System.out.println(i%10);
             if(i%10 > 5){
                 System.out.println("NULL ELEMENT");
-                mapElementStack.add(null);
+                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
             } else {
                 System.out.println("NORMALES ELEMENT");
                 mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));

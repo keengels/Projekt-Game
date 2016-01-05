@@ -30,6 +30,8 @@ import java.util.HashMap;
  */
 public class Hero {
 
+    private int heatLevel = 0;
+    private float heat = 0f;
     private int movementSpeed = 5;
     private int posEndJump = 0;
     private int width = 100;
@@ -125,6 +127,12 @@ public class Hero {
 
         if(this.heroState == "move"){
             this.xPos += this.movementSpeed;
+            this.heat += 0.002f;
+            this.heatLevel = (int)this.heat;
+            if(this.heatLevel >= 3) {
+                this.heatLevel = 2;
+            }
+            System.out.println(this.heatLevel +" BLABLABLA " + this.heat);
         }
 
         if(this.heroState == "fall"){
@@ -134,27 +142,15 @@ public class Hero {
     }
 
     public Animation getCurAnimation(){
-        return animationContainer.get(heroState);
+
+        if(this.heatLevel == 0) {
+            return animationContainer.get(heroState);
+        }else{
+            return animationContainer.get(heroState+this.heatLevel);
+        }
     }
 
     private boolean prepareAnimations(){
-/*
-        //Move-Animation
-        img = new Texture("runningcat.png");
-
-        animationFrames = new TextureRegion[8];
-
-        TextureRegion[][] tmpFrames = TextureRegion.split(img, 512, 256);
-
-        int index = 0;
-
-        for (int i = 0; i < 2; i++){
-            for(int j = 0; j < 4; j++) {
-                animationFrames[index++] = tmpFrames[j][i];
-            }
-        }
-        animation = new Animation( 0.2f, animationFrames);
-        */
 
         img = new Texture("ball.png");
 
@@ -175,6 +171,49 @@ public class Hero {
         animationContainer.put("move", animation);
         animationContainer.put("fall", animation);
         animationContainer.put("jump", animation);
+
+        img = new Texture("ball2.png");
+
+        animationFrames = new TextureRegion[8];
+
+        TextureRegion[][] tmpFrames2 = TextureRegion.split(img, 105, 110);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 4; j++) {
+                animationFrames[index++] = tmpFrames2[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+
+
+        animationContainer.put("move1", animation);
+        animationContainer.put("fall1", animation);
+        animationContainer.put("jump1", animation);
+
+        img = new Texture("ball3.png");
+
+        animationFrames = new TextureRegion[8];
+
+        TextureRegion[][] tmpFrames3 = TextureRegion.split(img, 105, 110);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 4; j++) {
+                animationFrames[index++] = tmpFrames3[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+
+        animationContainer.put("move2", animation);
+        animationContainer.put("fall2", animation);
+        animationContainer.put("jump2", animation);
+
+
 
         return true;
     }
