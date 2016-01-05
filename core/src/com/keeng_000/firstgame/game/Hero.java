@@ -42,7 +42,6 @@ public class Hero {
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
     private ArrayList<MapElement> allMapElements;
-
     Texture img;
     Animation animation;
     Map map;
@@ -70,6 +69,7 @@ public class Hero {
             return false;
         }else{
             if(state == "jump"){
+
                 if(this.heroState != "jump" && this.heroState != "fall") {
                     posEndJump = this.yPos + this.maxJumpHeight;
                     this.yPos += 20;
@@ -120,6 +120,7 @@ public class Hero {
         this.checkCollision();
         //Aktualisierung des Helden
         if(this.heroState == "jump"){
+            Sounds.play("jump");
             if(this.posEndJump > this.yPos) {
                 this.yPos += 20;
                 this.xPos += this.movementSpeed;
@@ -190,8 +191,9 @@ public class Hero {
 
         animation = new Animation( 0.25f, animationFrames);
 
-
         animationContainer.put("move1", animation);
+
+
         animationContainer.put("fall1", animation);
         animationContainer.put("jump1", animation);
 
