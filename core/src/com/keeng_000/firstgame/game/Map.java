@@ -31,25 +31,31 @@ import java.util.StringTokenizer;
 public class Map {
     private int groundPos = 200;
     Texture backGroundSky;
-    Texture backGroundOlaf;
-    ArrayList<MapElement> mapElements;
+    // Texture backGroundOlaf;
+    ArrayList<MapElement> mapElementStack;
 
     private float backGroundSkyYPos = 0, getBackGroundSkyXPos = 0;
 
 
     public Map(){
 
+        mapElementStack = new ArrayList() {
+        };
+
+        for(int i = 0; i < 10; i++)
+            mapElementStack.add(new MapElement(i * 200, 100));
+
         backGroundSky = new Texture("wolken.jpg");
 
         int xPos = 0;
         int yPos = 100;
 
-        mapElements = this.createMap();
+        //mapElements = this.createMap();
     }
 
 
     public ArrayList getMapElements(){
-        return this.mapElements;
+        return this.mapElementStack;
     }
 
     public void updateBackgroundSky(int xPos){
@@ -71,6 +77,35 @@ public class Map {
     public int getGroundPos(){return this.groundPos;}
 
     public void setGroundPos(int ground){this.groundPos = ground;}
+
+
+    public void addNewMapElement(){
+        int size =  mapElementStack.size();
+        if(mapElementStack.get(size - 1) == null){
+
+            System.out.println("letztes Element ist null");
+            mapElementStack.add(new MapElement(mapElementStack.get(size - 2).getXPos() + 400, 100));
+        } else {
+            System.out.println("Map Element");
+            Random rand = new Random();
+            int i = rand.nextInt();
+            System.out.println(i%10);
+            if(i%10 > 5){
+                System.out.println("NULL ELEMENT");
+                mapElementStack.add(null);
+            } else {
+                System.out.println("NORMALES ELEMENT");
+                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
+            }
+        }
+    }
+
+    public void removeMapElement(){
+
+        mapElementStack.remove(0);
+
+    }
+
 /*
     public void addNewMapElement(){
         if(mapElementStack.getLast() == null){
