@@ -6,10 +6,14 @@ package com.keeng_000.firstgame.game;
 
 
 import com.badlogic.gdx.Gdx;
+
+
 public class EventHandler {
 
     Hero hero;
     float oldAccel;
+    boolean turnL = true;
+    boolean turnR = true;
 
     public EventHandler(Hero hero){
         this.hero = hero;
@@ -21,11 +25,21 @@ public class EventHandler {
             if(!this.hero.setState("jump")){
                 System.out.println("Eventhandler: Konnte HeroState nicht setzen.");
             }
-        }else if(Gdx.input.getAccelerometerZ()>5 && this.oldAccel <5){
+        }else if(Gdx.input.getAccelerometerZ()>5 && this.oldAccel <2){
             //Hier wird etwas ausgeführt, wenn das Handy geneigt wird
             if(!this.hero.setState("jump")){
                 System.out.println("Eventhandler: Konnte HeroState nicht setzen.");
             }
+        }else if((Gdx.input.getAccelerometerY() > 2)&&turnR){
+            System.out.println("Rechts.");
+            turnR = false;
+            turnL = true;
+            this.hero.lowerHeat();
+        }else if((Gdx.input.getAccelerometerY() < -2)&&turnL){
+            System.out.println("Links.");
+            turnR = true;
+            turnL = false;
+            this.hero.lowerHeat();
         }
         this.oldAccel = Gdx.input.getAccelerometerZ();
 

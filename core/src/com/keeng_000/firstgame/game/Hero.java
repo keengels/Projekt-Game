@@ -243,4 +243,8 @@ public class Hero {
         this.yPos = newPos;
         return true;
     }
+
+    public void lowerHeat(){
+        this.heat = this.heat -  0.05f;
+    }
 }
