@@ -41,8 +41,7 @@ public class GameDraw extends ApplicationAdapter{
 
         cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         cam.position.set(hero.getXpos(), hero.getYpos(),0);
-        cam.setToOrtho(true);
-        cam.rotate(180);
+        cam.setToOrtho(false);
         cam.update();
 
     }
