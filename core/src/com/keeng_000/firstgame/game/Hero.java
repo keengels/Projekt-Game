@@ -108,10 +108,10 @@ public class Hero {
 
 
     public void heroEngine(){
-        /*if(this.xPos > 1400){
+        if(this.yPos < -100){
             this.xPos = 0;
             this.yPos = 300;
-        }*/
+        }
         this.checkCollision();
         //Aktualisierung des Helden
         if(this.heroState == "jump"){
