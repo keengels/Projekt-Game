@@ -132,7 +132,6 @@ public class Hero {
             if(this.heatLevel >= 3) {
                 this.heatLevel = 2;
             }
-            System.out.println(this.heatLevel +" BLABLABLA " + this.heat);
         }
 
         if(this.heroState == "fall"){
@@ -243,5 +242,9 @@ public class Hero {
     public boolean setYpos(int newPos){
         this.yPos = newPos;
         return true;
+    }
+
+    public void lowerHeat(){
+        this.heat = this.heat -  0.05f;
     }
 }
