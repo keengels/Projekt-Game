@@ -43,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	long endtime;
 	float elapsedTime;
 
-
+	public SoundManager sm;
 
 	@Override
 	public void create () {
@@ -56,12 +56,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		map = new Map();
 		actor = new Actor();
 		hero = new Hero(map);
+		sm = new SoundManager();
 		eventHandler = new EventHandler(hero);
 		endtime = System.currentTimeMillis();
 		batch = new SpriteBatch();
 
 		gameDraw = new GameDraw(batch, hero, map);
 		elapsedTime = 0f;
+
 
 		music_level1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/fever.mp3"));
 		music_level1.setLooping(true);

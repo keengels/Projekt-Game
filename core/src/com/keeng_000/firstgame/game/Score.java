@@ -1,5 +1,6 @@
 package com.keeng_000.firstgame.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -16,9 +17,7 @@ public class Score {
     SpriteBatch batch;
     public Hero hero;
     public int score = 0;
-    //ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-   // executor.scheduleAtFixedRate(helloRunnable, 0, 3, TimeUnit.SECONDS);
-
+    float timeState=0f;
     public Score(int score) {
         this.score = score;
     }
@@ -32,17 +31,26 @@ public class Score {
     }
 
     public void updateEverySecond() {
+        score += 1;
+        showScore(score);
+    }
+    public void calculateScore() {
 
         System.out.println("Hier:"+ score);
 
-        try {
+        /*try {
             Thread.sleep(2000);
             score += 2;
-        } catch(InterruptedException ie) {}
-        showScore();
+        } catch(InterruptedException ie) {}*/
+        timeState+= Gdx.graphics.getDeltaTime();
+        if(timeState>=1f) {
+            // 1 second just passed
+            timeState = 0f; // reset our timer
+            updateEverySecond(); // call the function that you want
+        }//showScore();
     }
 
-    public void showScore() {
+    public void showScore(int score) {
 
         System.out.println("Ich bin:" + score);
         font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -54,7 +62,6 @@ public class Score {
         System.out.println("hierasdad");
 
     }
-
 
 }
 
