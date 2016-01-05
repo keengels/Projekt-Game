@@ -53,7 +53,7 @@ public class Hero {
             this.map = map;
 
             this.allMapElements = map.getMapElements();
-            this.xPos = 100;
+            this.xPos = 200;
             this.yPos = 400;
 
             if(this.prepareAnimations()){
@@ -90,20 +90,20 @@ public class Hero {
     private void checkCollision(){
         boolean kollisionUnten = false;
         for(int i = 0; i < this.allMapElements.size(); i++) {
-                if ((this.xPos <= (allMapElements.get(i).getWidth() + allMapElements.get(i).getXPos())) && this.xPos + this.width >= allMapElements.get(i).getXPos()) {
-                    if (this.yPos == (allMapElements.get(i).getHeight() + allMapElements.get(i).getYpos())) {
-                        //Kollision unten
-                        kollisionUnten = true;
-                        this.setState("move");
-                    } else if ((this.yPos + this.height) == (allMapElements.get(i).getYpos())) {
-                        //Kollision oben
-                        this.setState("fall");
-                    } else if ((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
-                        //Kollision rechts
-                        this.setState("fall");
-                    } else if (this.heroState.equals("move") && !kollisionUnten) {
-                        this.setState("fall");
-                    }
+            if ((this.xPos <= (allMapElements.get(i).getWidth() + allMapElements.get(i).getXPos())) && this.xPos + this.width >= allMapElements.get(i).getXPos()) {
+                if (this.yPos == (allMapElements.get(i).getHeight() + allMapElements.get(i).getYpos())) {
+                    //Kollision unten
+                    kollisionUnten = true;
+                    this.setState("move");
+                } else if ((this.yPos + this.height) == (allMapElements.get(i).getYpos())) {
+                    //Kollision oben
+                    this.setState("fall");
+                } else if ((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
+                    //Kollision rechts
+                    this.setState("fall");
+                } else if (this.heroState.equals("move") && !kollisionUnten) {
+                    this.setState("fall");
+                }
             }
         }
     }
@@ -111,8 +111,11 @@ public class Hero {
 
     public void heroEngine(){
         if(this.yPos < -100){
+            /*
             this.xPos = 0;
             this.yPos = 300;
+            */
+            MyGdxGame.gameRunning = false;
         }
         this.checkCollision();
         //Aktualisierung des Helden

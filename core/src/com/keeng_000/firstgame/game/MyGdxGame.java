@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,6 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 public class MyGdxGame extends ApplicationAdapter {
 
+	private FreeTypeFontGenerator freeTypeFont;
+	private FreeTypeFontGenerator.FreeTypeFontParameter freeTypePar;
+	private BitmapFont loserFont;
+	static boolean gameRunning = true;
 	private Music music_level1;
 	Actor actor;
 	SpriteBatch batch;
@@ -41,6 +46,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void create () {
+		freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
+		freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		freeTypePar.size = 250;
+		loserFont = freeTypeFont.generateFont(freeTypePar);
+		freeTypeFont.dispose();
+
 		map = new Map();
 		actor = new Actor();
 		hero = new Hero(map);
@@ -66,20 +77,24 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		this.engine();
-		//update();
-		elapsedTime += Gdx.graphics.getDeltaTime();
+		if(MyGdxGame.gameRunning==true) {
+			this.engine();
 
-		if(elapsedTime > 50f){
-			elapsedTime = 0f;
+			elapsedTime += Gdx.graphics.getDeltaTime();
+
+			if (elapsedTime > 50f) {
+				elapsedTime = 0f;
+			}
+
+
+			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			gameDraw.render(elapsedTime);
+		}else
+		{
+			batch.begin();
+			loserFont.draw(batch, "Loooooooser", (hero.getXpos()-(Gdx.graphics.getWidth()/3)), hero.getYpos());
+			batch.end();
 		}
-
-
-		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gameDraw.render(elapsedTime);
 	}
-
-
-
 }
