@@ -4,6 +4,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -23,6 +24,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.util.ArrayList;
 
 public class MyGdxGame extends ApplicationAdapter {
 
@@ -49,7 +52,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
 		freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		freeTypePar.size = 250;
+		freeTypePar.size = 150;
+		freeTypePar.color = Color.RED;
 		loserFont = freeTypeFont.generateFont(freeTypePar);
 		freeTypeFont.dispose();
 
@@ -98,9 +102,16 @@ public class MyGdxGame extends ApplicationAdapter {
 			eventHandler.handleInput();
 
 			if(gameoversm){
+				ArrayList<MapElement> tmpMapElements = map.getMapElements();
 				Sounds.play("gameover");
 				batch.begin();
-			loserFont.draw(batch, "Loooooooser", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
+					batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
+					System.out.println("Bin im Loop Bin im Loop");
+				for(int i = 0; i < tmpMapElements.size(); i++){
+					if(tmpMapElements.get(i) != null)
+						batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
+				}
+				loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 2)), hero.getYpos());
 				batch.end();
 				gameoversm = false;
 				music_level1.stop();

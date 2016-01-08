@@ -30,14 +30,16 @@ import java.util.HashMap;
  */
 public class Hero {
 
+    private int oldHeatLevel = 0;
     private int heatLevel = 0;
     private float heat = 0f;
-    private int movementSpeed = 5;
+    private int movementSpeed = 10;
     private int posEndJump = 0;
     private int width = 100;
     private int height = 100;
     private int maxJumpHeight = 500;
-    private int gravity = 10;
+    private int gravity = 20;
+    private int jumpSpeed = 20;
     private String heroState="fall";
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
@@ -72,12 +74,12 @@ public class Hero {
             if(state == "jump"){
 
                 if(this.heroState != "jump" && this.heroState != "fall") {
+                    Sounds.play("jump");
                     posEndJump = this.yPos + this.maxJumpHeight;
-                    this.yPos += 20;
+                    this.yPos += this.jumpSpeed;
                     this.xPos += movementSpeed;
                     if (this.heroState == "move") {
                         this.heroState = state;
-
                     }
                 }
             }
@@ -113,52 +115,49 @@ public class Hero {
 
     public void heroEngine(){
         if(this.yPos < -100){
-            /*
-            this.xPos = 0;
-            this.yPos = 300;
-            */
             MyGdxGame.gameRunning = false;
-        }
-        this.checkCollision();
-        //Aktualisierung des Helden
-        if(this.heroState == "jump"){
-            Sounds.play("jump");
-            if(this.posEndJump > this.yPos) {
-                this.yPos += 20;
+        }else if(this.heatLevel == 3){
+            this.setState("death");
+            MyGdxGame.gameRunning = false;
+        }else {
+            if(this.oldHeatLevel < this.heatLevel){
+                this.oldHeatLevel = this.heatLevel;
+                Sounds.play("powerup");
+            }else if(this.oldHeatLevel > this.heatLevel){
+                this.oldHeatLevel = this.heatLevel;
+            }else{}
+
+            this.checkCollision();
+            //Aktualisierung des Helden
+            if (this.heroState == "jump") {
+                if (this.posEndJump > this.yPos) {
+                    this.yPos += 20;
+                    this.xPos += this.movementSpeed;
+                } else {
+
+                    this.heroState = "fall";
+                }
+            }
+
+            if (this.heroState == "move") {
                 this.xPos += this.movementSpeed;
-            }else{
-
-                this.heroState = "fall";
+                this.heat += 0.005f;
+                this.heatLevel = (int) this.heat;
             }
-        }
 
-        if(this.heroState == "move"){
-            this.xPos += this.movementSpeed;
-            this.heat += 0.002f;
-            this.heatLevel = (int)this.heat;
-
-            if(this.heatLevel >= 3) {
-                this.heatLevel = 2;
+            if (this.heroState == "fall") {
+                //Sounds.play("gameover");
+                this.yPos -= this.gravity;
+                this.xPos += this.movementSpeed;
             }
-        }
-
-        if(this.heroState == "fall"){
-            //Sounds.play("gameover");
-            this.yPos -= this.gravity;
-            this.xPos += this.movementSpeed / 2;
         }
     }
-    boolean einmal = true;
+
     public Animation getCurAnimation(){
 
-        if(this.heatLevel == 0) {
+        if(this.heatLevel == 0 || this.heatLevel == 3) {
             return animationContainer.get(heroState);
         }else{
-            if(einmal) {
-                Sounds.play("powerup");
-                einmal = false;
-            }
-
             return animationContainer.get(heroState+this.heatLevel);
         }
 
@@ -229,6 +228,22 @@ public class Hero {
         animationContainer.put("jump2", animation);
 
 
+        img = new Texture("death.jpg");
+
+        animationFrames = new TextureRegion[4];
+
+        TextureRegion[][] tmpFrames4 = TextureRegion.split(img, 105, 105);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 2; j++) {
+                animationFrames[index++] = tmpFrames4[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+        animationContainer.put("death", animation);
 
         return true;
     }

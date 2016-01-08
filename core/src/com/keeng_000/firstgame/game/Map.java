@@ -30,8 +30,7 @@ import java.util.StringTokenizer;
  */
 public class Map {
     private int groundPos = 200;
-    Texture backGroundSky;
-    // Texture backGroundOlaf;
+
     ArrayList<MapElement> mapElementStack;
 
     private float backGroundSkyYPos = 0, getBackGroundSkyXPos = 0;
@@ -45,7 +44,6 @@ public class Map {
         for(int i = 0; i < 10; i++)
             mapElementStack.add(new MapElement(i * 200, 100));
 
-        backGroundSky = new Texture("wolken.jpg");
 
         int xPos = 0;
         int yPos = 100;
@@ -60,10 +58,6 @@ public class Map {
 
     public void updateBackgroundSky(int xPos){
         this.getBackGroundSkyXPos =(float)(xPos*(-0.1));
-    }
-
-    public Texture getBackGroundSky(){
-        return this.backGroundSky;
     }
 
     public float getBackGroundSkyXPos(){
