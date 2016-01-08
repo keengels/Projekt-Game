@@ -44,7 +44,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	float elapsedTime;
 
 	public SoundManager sm;
-
+	boolean gameoversm = true;
 	@Override
 	public void create () {
 		freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
@@ -96,11 +96,21 @@ public class MyGdxGame extends ApplicationAdapter {
 		}else
 		{
 			eventHandler.handleInput();
-			batch.begin();
+
+			if(gameoversm){
+				Sounds.play("gameover");
+				batch.begin();
 			loserFont.draw(batch, "Loooooooser", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
-			batch.end();
+				batch.end();
+				gameoversm = false;
+				music_level1.stop();
+
+			}
+
 			if(MyGdxGame.newGame){
+
 				this.reset();
+
 			}
 		}
 	}
@@ -108,7 +118,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void reset(){
 		MyGdxGame.gameRunning = true;
 		MyGdxGame.newGame = false;
-
+		gameoversm = true;
 
 		map = new Map();
 		actor = new Actor();

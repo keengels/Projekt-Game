@@ -60,7 +60,7 @@ public class GameDraw extends ApplicationAdapter{
         //Render Hero b
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
 
-        //s.calculateScore();
+        //Score.calculateScore(batch);
 
         //Render Mapelemente
         for(int i = 0; i < tmpMapElements.size(); i++){

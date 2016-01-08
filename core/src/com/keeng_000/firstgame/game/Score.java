@@ -1,6 +1,7 @@
 package com.keeng_000.firstgame.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -34,7 +35,7 @@ public class Score {
         score += 1;
         showScore(score);
     }
-    public void calculateScore() {
+    public void calculateScore(Batch batch) {
 
         System.out.println("Hier:"+ score);
 

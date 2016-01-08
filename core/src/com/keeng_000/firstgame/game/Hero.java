@@ -68,6 +68,7 @@ public class Hero {
             System.out.println("Hero-Class: Animation von Setstate Eventhandler ist nicht in animationContainer vorhanden.");
             return false;
         }else{
+
             if(state == "jump"){
 
                 if(this.heroState != "jump" && this.heroState != "fall") {
@@ -76,6 +77,7 @@ public class Hero {
                     this.xPos += movementSpeed;
                     if (this.heroState == "move") {
                         this.heroState = state;
+
                     }
                 }
             }
@@ -125,6 +127,7 @@ public class Hero {
                 this.yPos += 20;
                 this.xPos += this.movementSpeed;
             }else{
+
                 this.heroState = "fall";
             }
         }
@@ -133,24 +136,32 @@ public class Hero {
             this.xPos += this.movementSpeed;
             this.heat += 0.002f;
             this.heatLevel = (int)this.heat;
+
             if(this.heatLevel >= 3) {
                 this.heatLevel = 2;
             }
         }
 
         if(this.heroState == "fall"){
+            //Sounds.play("gameover");
             this.yPos -= this.gravity;
             this.xPos += this.movementSpeed / 2;
         }
     }
-
+    boolean einmal = true;
     public Animation getCurAnimation(){
 
         if(this.heatLevel == 0) {
             return animationContainer.get(heroState);
         }else{
+            if(einmal) {
+                Sounds.play("powerup");
+                einmal = false;
+            }
+
             return animationContainer.get(heroState+this.heatLevel);
         }
+
     }
 
     private boolean prepareAnimations(){
