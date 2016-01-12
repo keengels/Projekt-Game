@@ -41,7 +41,7 @@ public class Map {
         mapElementStack = new ArrayList() {
         };
 
-        for(int i = 0; i < 10; i++)
+        for(int i = 0; i < 15; i++)
             mapElementStack.add(new MapElement(i * 200, 100));
 
 
@@ -75,22 +75,26 @@ public class Map {
 
     public void addNewMapElement(){
         int size =  mapElementStack.size();
-        if(mapElementStack.get(size - 1) == null){
+        if(mapElementStack.get(size - 1).getXPos() == mapElementStack.get(size - 2).getXPos() + 200) {
 
-            System.out.println("letztes Element ist null");
-            mapElementStack.add(new MapElement(mapElementStack.get(size - 2).getXPos() + 400, 100));
-        } else {
-            System.out.println("Map Element");
+            //Lücke
             Random rand = new Random();
             int i = rand.nextInt();
-            System.out.println(i%10);
-            if(i%10 > 5){
-                System.out.println("NULL ELEMENT");
-                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 400));
+            if(i % 10 > 5){
+
+                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 400, 100));
             } else {
-                System.out.println("NORMALES ELEMENT");
-                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
+                //normales Element eventuell in der Höhe versetzt
+                if (rand.nextInt() % 10 > 2) {
+                    mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 400));
+                } else {
+
+                    mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
+                }
             }
+
+        } else {
+            mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
         }
     }
 
