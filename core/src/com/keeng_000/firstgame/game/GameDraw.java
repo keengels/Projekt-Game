@@ -55,7 +55,7 @@ public class GameDraw extends ApplicationAdapter{
 
         freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
         freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        freeTypePar.size = 70;
+        freeTypePar.size = (int) (50 * Gdx.graphics.getDensity());
         freeTypePar.color = Color.RED;
         scoreFont = freeTypeFont.generateFont(freeTypePar);
         freeTypeFont.dispose();

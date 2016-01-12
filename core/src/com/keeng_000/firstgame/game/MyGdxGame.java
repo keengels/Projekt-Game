@@ -37,7 +37,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create () {
 		freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
 		freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		freeTypePar.size = 120;
+		freeTypePar.size = (int) (50* Gdx.graphics.getDensity());
 		freeTypePar.color = Color.RED;
 		loserFont = freeTypeFont.generateFont(freeTypePar);
 		freeTypeFont.dispose();
