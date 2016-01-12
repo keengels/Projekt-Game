@@ -93,13 +93,14 @@ public class MyGdxGame extends ApplicationAdapter {
 			ArrayList<MapElement> tmpMapElements = map.getMapElements();
 			batch.begin();
 				batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
-			for(int i = 0; i < tmpMapElements.size(); i++){
-				if(tmpMapElements.get(i) != null)
-					batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
-			}
+			//for(int i = 0; i < tmpMapElements.size(); i++){
+			//	if(tmpMapElements.get(i) != null)
+			//		batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
+			//}
 			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos());
 			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos() + 50) - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos() - 140);
 			batch.end();
+
 			music_level1.stop();
 
 			if(MyGdxGame.newGame){
