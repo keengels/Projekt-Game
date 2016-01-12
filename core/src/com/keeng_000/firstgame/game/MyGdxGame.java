@@ -97,8 +97,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				if(tmpMapElements.get(i) != null)
 					batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
 			}
-			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
-			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos() + 50) - (Gdx.graphics.getWidth() / 3)), hero.getYpos() - 140);
+			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos());
+			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos() + 50) - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos() - 140);
 			batch.end();
 			music_level1.stop();
 

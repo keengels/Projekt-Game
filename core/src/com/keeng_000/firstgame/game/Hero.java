@@ -105,10 +105,11 @@ public class Hero {
                 } else if ((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
                     //Kollision rechts
                     this.setState("fall");
-                } else if (this.heroState.equals("move") && !kollisionUnten) {
-                    this.setState("fall");
                 }
             }
+        }
+        if(!kollisionUnten && this.heroState.equals("move")){
+            this.setState("fall");
         }
     }
 

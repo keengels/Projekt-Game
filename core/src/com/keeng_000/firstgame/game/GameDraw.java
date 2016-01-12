@@ -68,7 +68,7 @@ public class GameDraw extends ApplicationAdapter{
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
         batch.setProjectionMatrix(cam.combined);
-
+        cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
         //Render Hero
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
 
@@ -88,7 +88,7 @@ public class GameDraw extends ApplicationAdapter{
             //map.removeMapElement(hero.getXpos());
 
         }
-        cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
+        //cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
         cam.update();
     }
     public void dispose(){
