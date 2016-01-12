@@ -32,6 +32,7 @@ public class GameDraw extends ApplicationAdapter{
     private FreeTypeFontGenerator freeTypeFont;
     private FreeTypeFontGenerator.FreeTypeFontParameter freeTypePar;
     private BitmapFont scoreFont;
+    private int xOffset = 300;
 
     Score score;
     Map map;
@@ -54,7 +55,7 @@ public class GameDraw extends ApplicationAdapter{
 
         freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
         freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        freeTypePar.size = 30;
+        freeTypePar.size = 70;
         freeTypePar.color = Color.RED;
         scoreFont = freeTypeFont.generateFont(freeTypePar);
         freeTypeFont.dispose();
@@ -78,7 +79,7 @@ public class GameDraw extends ApplicationAdapter{
         }
 
         //Render Score
-        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2)), hero.getYpos()+(Gdx.graphics.getHeight()/2));
+        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
 
         if(oldXpos + 1000 < hero.getXpos()){
@@ -87,7 +88,7 @@ public class GameDraw extends ApplicationAdapter{
             //map.removeMapElement(hero.getXpos());
 
         }
-        cam.position.set(hero.getXpos(), hero.getYpos(), 0);
+        cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
         cam.update();
     }
     public void dispose(){
