@@ -114,13 +114,11 @@ public class Hero {
 
 
     public void heroEngine(){
-        if(this.yPos < -100){
+        if(this.yPos < -100 || this.heatLevel == 3){
+            if(this.heatLevel  == 3)
+                this.setState("death");
             MyGdxGame.gameRunning = false;
             Sounds.play("gameover");
-        }else if(this.heatLevel == 3){
-            this.setState("death");
-            Sounds.play("gameover");
-            MyGdxGame.gameRunning = false;
         }else {
             if(this.oldHeatLevel != this.heatLevel){
                 if (this.oldHeatLevel < this.heatLevel) {
@@ -203,8 +201,6 @@ public class Hero {
         animation = new Animation( 0.25f, animationFrames);
 
         animationContainer.put("move1", animation);
-
-
         animationContainer.put("fall1", animation);
         animationContainer.put("jump1", animation);
 
@@ -249,20 +245,6 @@ public class Hero {
         return true;
     }
 
-
-
-    public void move(){
-
-    }
-
-    public int getWidth(){
-        return this.width;
-    }
-
-    public int getHeight(){
-        return this.height;
-    }
-
     public int getXpos(){
         return this.xPos;
     }
@@ -271,12 +253,8 @@ public class Hero {
         return this.yPos;
     }
 
-    public boolean setYpos(int newPos){
-        this.yPos = newPos;
-        return true;
-    }
-
     public void lowerHeat(){
-        this.heat = this.heat -  0.05f;
+        this.heat = this.heat -  0.10f;
+        System.out.println("Heat: "+ this.heat);
     }
 }
