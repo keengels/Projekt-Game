@@ -41,18 +41,17 @@ public class MyGdxGame extends ApplicationAdapter {
 	public Map map;
 	public Hero hero;
 	private GameDraw gameDraw;
-	private InputListener inputListener;
+	private Score score;
 
 	long endtime;
 	float elapsedTime;
 
 	public SoundManager sm;
-	boolean gameoversm = true;
 	@Override
 	public void create () {
 		freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
 		freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		freeTypePar.size = 150;
+		freeTypePar.size = 120;
 		freeTypePar.color = Color.RED;
 		loserFont = freeTypeFont.generateFont(freeTypePar);
 		freeTypeFont.dispose();
@@ -64,8 +63,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		eventHandler = new EventHandler(hero);
 		endtime = System.currentTimeMillis();
 		batch = new SpriteBatch();
+		score = new Score();
 
-		gameDraw = new GameDraw(batch, hero, map);
+
+		gameDraw = new GameDraw(batch, hero, map, score);
 		elapsedTime = 0f;
 
 
@@ -84,14 +85,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+
+		elapsedTime += Gdx.graphics.getDeltaTime();
+
+		if (elapsedTime > 50f) {
+			elapsedTime = 0f;
+		}
+
 		if(MyGdxGame.gameRunning==true) {
 			this.engine();
-
-			elapsedTime += Gdx.graphics.getDeltaTime();
-
-			if (elapsedTime > 50f) {
-				elapsedTime = 0f;
-			}
+			score.updateScore();
 
 
 			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
@@ -101,27 +104,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		{
 			eventHandler.handleInput();
 
-			if(gameoversm){
-				ArrayList<MapElement> tmpMapElements = map.getMapElements();
-				Sounds.play("gameover");
-				batch.begin();
-					batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
-					System.out.println("Bin im Loop Bin im Loop");
-				for(int i = 0; i < tmpMapElements.size(); i++){
-					if(tmpMapElements.get(i) != null)
-						batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
-				}
-				loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 2)), hero.getYpos());
-				batch.end();
-				gameoversm = false;
-				music_level1.stop();
-
+			ArrayList<MapElement> tmpMapElements = map.getMapElements();
+			batch.begin();
+				batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
+			for(int i = 0; i < tmpMapElements.size(); i++){
+				if(tmpMapElements.get(i) != null)
+					batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
 			}
+			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
+			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos()+50) - (Gdx.graphics.getWidth() / 3)), hero.getYpos()-140);
+			batch.end();
+			music_level1.stop();
 
 			if(MyGdxGame.newGame){
-
 				this.reset();
-
 			}
 		}
 	}
@@ -129,16 +125,16 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void reset(){
 		MyGdxGame.gameRunning = true;
 		MyGdxGame.newGame = false;
-		gameoversm = true;
 
 		map = new Map();
 		actor = new Actor();
 		hero = new Hero(map);
+		score = new Score();
 		eventHandler = new EventHandler(hero);
 		endtime = System.currentTimeMillis();
 		batch = new SpriteBatch();
 
-		gameDraw = new GameDraw(batch, hero, map);
+		gameDraw = new GameDraw(batch, hero, map, score);
 		elapsedTime = 0f;
 
 		music_level1 = Gdx.audio.newMusic(Gdx.files.internal("sounds/fever.mp3"));

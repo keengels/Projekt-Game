@@ -33,9 +33,9 @@ public class EventHandler {
             }
         }else if(Gdx.input.getAccelerometerZ()>5 && this.oldAccel <2){
             //Hier wird etwas ausgeführt, wenn das Handy geneigt wird
-            if(!this.hero.setState("jump")){
+            /*if(!this.hero.setState("jump")){
                 System.out.println("Eventhandler: Konnte HeroState nicht setzen.");
-            }
+            }*/
         }else if((Gdx.input.getAccelerometerY() > 2)&&turnR){
             System.out.println("Rechts.");
             turnR = false;

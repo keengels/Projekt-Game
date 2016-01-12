@@ -1,6 +1,7 @@
 package com.keeng_000.firstgame.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.ashley.signals.Listener;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -27,22 +29,35 @@ import java.util.ArrayList;
  */
 public class GameDraw extends ApplicationAdapter{
 
+    private FreeTypeFontGenerator freeTypeFont;
+    private FreeTypeFontGenerator.FreeTypeFontParameter freeTypePar;
+    private BitmapFont scoreFont;
+
+    Score score;
     Map map;
     Hero hero;
     SpriteBatch batch;
     OrthographicCamera cam;
     int oldXpos;
 
-    public GameDraw(SpriteBatch batch, Hero hero, Map map) {
+    public GameDraw(SpriteBatch batch, Hero hero, Map map, Score score) {
         this.batch = batch;
         this.hero = hero;
         this.map = map;
+        this.score = score;
         this.oldXpos = hero.getXpos();
 
         cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         cam.position.set(hero.getXpos(), hero.getYpos(),0);
         cam.setToOrtho(false);
         cam.update();
+
+        freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
+        freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        freeTypePar.size = 30;
+        freeTypePar.color = Color.RED;
+        scoreFont = freeTypeFont.generateFont(freeTypePar);
+        freeTypeFont.dispose();
 
     }
 
@@ -51,19 +66,19 @@ public class GameDraw extends ApplicationAdapter{
         batch.begin();
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
-
         batch.setProjectionMatrix(cam.combined);
 
-        //Render Hero b
+        //Render Hero
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
-
-        //Score.calculateScore(batch);
 
         //Render Mapelemente
         for(int i = 0; i < tmpMapElements.size(); i++){
             if(tmpMapElements.get(i) != null)
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
+
+        //Render Score
+        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2)), hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
 
         if(oldXpos + 1000 < hero.getXpos()){
@@ -72,14 +87,10 @@ public class GameDraw extends ApplicationAdapter{
             map.removeMapElement();
 
         }
-
-
         cam.position.set(hero.getXpos(), hero.getYpos(), 0);
         cam.update();
     }
-
     public void dispose(){
         batch.dispose();
     }
-
 }

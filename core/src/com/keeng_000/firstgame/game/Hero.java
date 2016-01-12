@@ -72,12 +72,12 @@ public class Hero {
         }else{
 
             if(state == "jump"){
-
                 if(this.heroState != "jump" && this.heroState != "fall") {
                     Sounds.play("jump");
                     posEndJump = this.yPos + this.maxJumpHeight;
                     this.yPos += this.jumpSpeed;
                     this.xPos += movementSpeed;
+
                     if (this.heroState == "move") {
                         this.heroState = state;
                     }
@@ -116,16 +116,18 @@ public class Hero {
     public void heroEngine(){
         if(this.yPos < -100){
             MyGdxGame.gameRunning = false;
+            Sounds.play("gameover");
         }else if(this.heatLevel == 3){
             this.setState("death");
+            Sounds.play("gameover");
             MyGdxGame.gameRunning = false;
         }else {
-            if(this.oldHeatLevel < this.heatLevel){
+            if(this.oldHeatLevel != this.heatLevel){
+                if (this.oldHeatLevel < this.heatLevel) {
+                    Sounds.play("powerup");
+                }
                 this.oldHeatLevel = this.heatLevel;
-                Sounds.play("powerup");
-            }else if(this.oldHeatLevel > this.heatLevel){
-                this.oldHeatLevel = this.heatLevel;
-            }else{}
+            }
 
             this.checkCollision();
             //Aktualisierung des Helden
@@ -146,7 +148,6 @@ public class Hero {
             }
 
             if (this.heroState == "fall") {
-                //Sounds.play("gameover");
                 this.yPos -= this.gravity;
                 this.xPos += this.movementSpeed;
             }
@@ -179,7 +180,7 @@ public class Hero {
             }
         }
 
-        animation = new Animation( 0.25f, animationFrames);
+        animation = new Animation( 0.178f, animationFrames);
 
         animationContainer.put("move", animation);
         animationContainer.put("fall", animation);
