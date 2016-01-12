@@ -84,7 +84,7 @@ public class GameDraw extends ApplicationAdapter{
         if(oldXpos + 1000 < hero.getXpos()){
             oldXpos += 200;
             map.addNewMapElement();
-            map.removeMapElement();
+            //map.removeMapElement(hero.getXpos());
 
         }
         cam.position.set(hero.getXpos(), hero.getYpos(), 0);

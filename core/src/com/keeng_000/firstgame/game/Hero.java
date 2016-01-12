@@ -229,7 +229,7 @@ public class Hero {
         animationContainer.put("jump2", animation);
 
 
-        img = new Texture("death.jpg");
+        img = new Texture("death.png");
 
         animationFrames = new TextureRegion[4];
 
