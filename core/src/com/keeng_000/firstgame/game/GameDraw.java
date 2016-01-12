@@ -59,7 +59,7 @@ public class GameDraw extends ApplicationAdapter{
 
         freeTypeFont = new FreeTypeFontGenerator(Gdx.files.internal("font1.ttf"));
         freeTypePar = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        freeTypePar.size = 70;
+        freeTypePar.size = (int) (50 * Gdx.graphics.getDensity());
         freeTypePar.color = Color.RED;
         scoreFont = freeTypeFont.generateFont(freeTypePar);
         freeTypeFont.dispose();
@@ -72,7 +72,6 @@ public class GameDraw extends ApplicationAdapter{
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
         float currentYpos = hero.getYpos();
 
-
         batch.setProjectionMatrix(cam.combined);
         cam.position.set(hero.getXpos()+this.xOffset, currentYpos, 0);
         //Render Hero
@@ -83,8 +82,14 @@ public class GameDraw extends ApplicationAdapter{
             if(tmpMapElements.get(i) != null)
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
-
+        //Wasser rendern
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                batch.draw(map.getWaterAnimation().getKeyFrame(elapsedTime, true), (hero.getXpos() - (Gdx.graphics.getWidth() / 2)) + (i * 1064), -290-(j*322));
+            }
+        }
         //Render Score
+        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
         batchfont.begin();
         scoreFont.draw(batchfont, "Points:" + score.getScore(), 0, height - 50);
