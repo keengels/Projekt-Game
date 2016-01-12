@@ -254,7 +254,7 @@ public class Hero {
     }
 
     public void lowerHeat(){
-        this.heat = this.heat -  0.10f;
-        System.out.println("Heat: "+ this.heat);
+        if(this.heat > 0f)
+            this.heat = this.heat -  0.20f;
     }
 }
