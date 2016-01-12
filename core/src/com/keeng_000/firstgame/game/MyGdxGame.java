@@ -1,29 +1,15 @@
 package com.keeng_000.firstgame.game;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.gdx.Input;
+
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 
@@ -92,7 +78,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			elapsedTime = 0f;
 		}
 
-		if(MyGdxGame.gameRunning==true) {
+		if(MyGdxGame.gameRunning) {
 			this.engine();
 			score.updateScore();
 
@@ -112,7 +98,7 @@ public class MyGdxGame extends ApplicationAdapter {
 					batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
 			}
 			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3)), hero.getYpos());
-			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos()+50) - (Gdx.graphics.getWidth() / 3)), hero.getYpos()-140);
+			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos() + 50) - (Gdx.graphics.getWidth() / 3)), hero.getYpos() - 140);
 			batch.end();
 			music_level1.stop();
 
