@@ -30,7 +30,7 @@ import java.util.StringTokenizer;
  */
 public class Map {
     private int groundPos = 200;
-
+    Animation waterAnimation;
     ArrayList<MapElement> mapElementStack;
 
     private float backGroundSkyYPos = 0, getBackGroundSkyXPos = 0;
@@ -43,7 +43,7 @@ public class Map {
 
         for(int i = 0; i < 15; i++)
             mapElementStack.add(new MapElement(i * 200, 100));
-
+        this.prepareWater();
 
         int xPos = 0;
         int yPos = 100;
@@ -51,7 +51,7 @@ public class Map {
         //mapElements = this.createMap();
     }
 
-
+    public Animation getWaterAnimation(){return this.waterAnimation;}
     public ArrayList getMapElements(){
         return this.mapElementStack;
     }
@@ -72,6 +72,25 @@ public class Map {
 
     public void setGroundPos(int ground){this.groundPos = ground;}
 
+    private void prepareWater() {
+        Texture img;
+        img = new Texture("wasser.png");
+        TextureRegion[] animationFrames;
+
+        animationFrames = new TextureRegion[2];
+
+        TextureRegion[][] tmpFrames = TextureRegion.split(img, 1064, 322);
+
+        int index = 0;
+
+        for (int i = 0; i < 1; i++){
+            for(int j = 0; j < 2; j++) {
+                animationFrames[index++] = tmpFrames[j][i];
+            }
+        }
+
+        this.waterAnimation = new Animation( 0.25f, animationFrames);
+    }
 
     public void addNewMapElement(){
         int size =  mapElementStack.size();

@@ -77,6 +77,8 @@ public class GameDraw extends ApplicationAdapter{
             if(tmpMapElements.get(i) != null)
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
+        //Wasser rendern
+        batch.draw(map.getWaterAnimation().getKeyFrame(elapsedTime, true), (hero.getXpos()-(Gdx.graphics.getWidth()/2)),-500);
 
         //Render Score
         scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
