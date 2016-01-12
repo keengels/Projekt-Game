@@ -89,7 +89,6 @@ public class GameDraw extends ApplicationAdapter{
             }
         }
         //Render Score
-        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
         batchfont.begin();
         scoreFont.draw(batchfont, "Points:" + score.getScore(), 0, height - 50);
