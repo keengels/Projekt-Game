@@ -30,6 +30,7 @@ import java.util.HashMap;
  */
 public class Hero {
 
+    private boolean molten = false;
     private int oldHeatLevel = 0;
     private int heatLevel = 0;
     private float heat = 0f;
@@ -116,8 +117,10 @@ public class Hero {
 
     public void heroEngine(){
         if(this.yPos < -100 || this.heatLevel == 3){
-            if(this.heatLevel  == 3)
+            if(this.heatLevel  == 3) {
+                this.molten = true;
                 this.setState("death");
+            }
             MyGdxGame.gameRunning = false;
             Sounds.play("gameover");
         }else {
@@ -257,5 +260,9 @@ public class Hero {
     public void lowerHeat(){
         if(this.heat > 0f)
             this.heat = this.heat -  0.20f;
+    }
+
+    public boolean getMolten(){
+        return this.molten;
     }
 }

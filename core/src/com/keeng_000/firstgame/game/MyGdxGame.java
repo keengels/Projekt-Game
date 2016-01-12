@@ -83,7 +83,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			score.updateScore();
 
 
-			Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+			Gdx.gl.glClearColor(0.0f, 0.0f, 0.75f, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			gameDraw.render(elapsedTime);
 		}else
@@ -92,11 +92,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			ArrayList<MapElement> tmpMapElements = map.getMapElements();
 			batch.begin();
+			if(hero.getMolten()) {
 				batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
-			for(int i = 0; i < tmpMapElements.size(); i++){
-				if(tmpMapElements.get(i) != null)
-					batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
 			}
+
 			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos());
 			loserFont.draw(batch, "Points: " + this.score.getScore(), ((hero.getXpos() + 50) - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos() - 140);
 			batch.end();

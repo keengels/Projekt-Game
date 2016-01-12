@@ -68,7 +68,7 @@ public class GameDraw extends ApplicationAdapter{
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
 
         batch.setProjectionMatrix(cam.combined);
-        cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
+        cam.position.set(hero.getXpos() + this.xOffset, hero.getYpos(), 0);
         //Render Hero
         batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
 
@@ -78,8 +78,11 @@ public class GameDraw extends ApplicationAdapter{
             batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
         }
         //Wasser rendern
-        batch.draw(map.getWaterAnimation().getKeyFrame(elapsedTime, true), (hero.getXpos()-(Gdx.graphics.getWidth()/2)),-500);
-
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                batch.draw(map.getWaterAnimation().getKeyFrame(elapsedTime, true), (hero.getXpos() - (Gdx.graphics.getWidth() / 2)) + (i * 1064), -290-(j*322));
+            }
+        }
         //Render Score
         scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
