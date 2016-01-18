@@ -21,83 +21,83 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.StringTokenizer;
 
 /**
  * Created by keeng_000 on 15.10.2015.
  */
 public class Map {
-
-    /*
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        00000000000000000000000#########00000000000000000000000000000000000000
-        0000000000000000000000000000000000000000000000000000000000000000000000
-        ########################000000000#####################################
-     */
-
     private int groundPos = 200;
-    Texture backGroundSky;
-    Texture backGroundOlaf;
-    ArrayList<MapElement> mapElements;
+    Animation waterAnimation;
+    ArrayList<MapElement> mapElementStack;
 
     private float backGroundSkyYPos = 0, getBackGroundSkyXPos = 0;
 
 
     public Map(){
-        backGroundSky = new Texture("wolken.jpg");
-        /*
-        int xPos = 0;
-        int yPos = 100;
 
-        for(int i = 0; i<10; i++){
-            mapElements.add(new MapElement(xPos, yPos, "traeger.png"));
-            xPos += 200;
-        }
-        */
-        mapElements = this.createMapFromString("######0#####");
+        mapElementStack = new ArrayList() {
+        };
+
+        for(int i = 0; i < 15; i++)
+            mapElementStack.add(new MapElement(i * 200, 100));
+        this.prepareWater();
     }
 
+    public Animation getWaterAnimation(){return this.waterAnimation;}
     public ArrayList getMapElements(){
-        return this.mapElements;
+        return this.mapElementStack;
     }
 
-    public void updateBackgroundSky(){
-        this.getBackGroundSkyXPos-=0.1;
+    public void updateBackgroundSky(int xPos){
+        this.getBackGroundSkyXPos =(float)(xPos*(-0.1));
     }
 
-    public Texture getBackGroundSky(){
-        return this.backGroundSky;
-    }
+    private void prepareWater() {
+        Texture img;
+        img = new Texture("wasser.png");
+        TextureRegion[] animationFrames;
 
-    public float getBackGroundSkyXPos(){
-        return this.getBackGroundSkyXPos;
-    }
+        animationFrames = new TextureRegion[2];
 
-    public float getBackGroundSkyYPos(){
-        return this.backGroundSkyYPos;
-    }
+        TextureRegion[][] tmpFrames = TextureRegion.split(img, 1064, 322);
 
-    public int getGroundPos(){return this.groundPos;}
+        int index = 0;
 
-    public ArrayList createMapFromString(String map){
-        //Erstellt eine Map aus einem String
-        char[] myChars = map.toCharArray();
-        int xpos = 0;
-        ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
-        for(int i= 0;i< myChars.length;i++){
-            if(myChars[i]=='#') {
-                mapElements.add(new Ground(xpos, 100));
-                xpos += 200;
-            }else if(myChars[i]=='0'){
-                mapElements.add(new EmptyGround(xpos, 100));
-                xpos += 200;
+        for (int i = 0; i < 1; i++){
+            for(int j = 0; j < 2; j++) {
+                animationFrames[index++] = tmpFrames[j][i];
             }
         }
 
-        return mapElements;
+        this.waterAnimation = new Animation( 0.25f, animationFrames);
+    }
+
+    public void addNewMapElement(){
+        int size =  mapElementStack.size();
+        if(mapElementStack.get(size - 1).getXPos() == mapElementStack.get(size - 2).getXPos() + 200) {
+
+            //Lücke
+            Random rand = new Random();
+            int i = rand.nextInt();
+            if(i % 10 > 5){
+
+                mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 400, 100));
+            } else {
+                //normales Element eventuell in der Höhe versetzt
+                if (rand.nextInt() % 10 > 2) {
+                    mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 400));
+                } else {
+
+                    mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
+                }
+            }
+
+        } else {
+            mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
+        }
     }
 }
 
-
-//hallo miteinander

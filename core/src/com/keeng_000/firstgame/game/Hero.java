@@ -30,17 +30,21 @@ import java.util.HashMap;
  */
 public class Hero {
 
-    private int movementSpeed = 5;
+    private boolean molten = false;
+    private int oldHeatLevel = 0;
+    private int heatLevel = 0;
+    private float heat = 0f;
+    private int movementSpeed = 10;
     private int posEndJump = 0;
     private int width = 100;
     private int height = 100;
     private int maxJumpHeight = 500;
-    private int gravity = 10;
+    private int gravity = 20;
+    private int jumpSpeed = 20;
     private String heroState="fall";
     private int xPos, yPos;
     private HashMap<String, Animation> animationContainer = new HashMap<String, Animation>();
     private ArrayList<MapElement> allMapElements;
-
     Texture img;
     Animation animation;
     Map map;
@@ -51,7 +55,7 @@ public class Hero {
             this.map = map;
 
             this.allMapElements = map.getMapElements();
-            this.xPos = 100;
+            this.xPos = 200;
             this.yPos = 400;
 
             if(this.prepareAnimations()){
@@ -67,11 +71,14 @@ public class Hero {
             System.out.println("Hero-Class: Animation von Setstate Eventhandler ist nicht in animationContainer vorhanden.");
             return false;
         }else{
+
             if(state == "jump"){
                 if(this.heroState != "jump" && this.heroState != "fall") {
+                    Sounds.play("jump");
                     posEndJump = this.yPos + this.maxJumpHeight;
-                    this.yPos += 20;
+                    this.yPos += this.jumpSpeed;
                     this.xPos += movementSpeed;
+
                     if (this.heroState == "move") {
                         this.heroState = state;
                     }
@@ -87,74 +94,79 @@ public class Hero {
 
     private void checkCollision(){
         boolean kollisionUnten = false;
-        for(int i = 0; i < this.allMapElements.size(); i++){
-            if((this.xPos <= (allMapElements.get(i).getWidth()+allMapElements.get(i).getXPos())) && this.xPos >= allMapElements.get(i).getXPos()){
-                if(this.yPos == (allMapElements.get(i).getHeight()+allMapElements.get(i).getYpos())) {
+        for(int i = 0; i < this.allMapElements.size(); i++) {
+            if ((this.xPos <= (allMapElements.get(i).getWidth() + allMapElements.get(i).getXPos())) && this.xPos + this.width >= allMapElements.get(i).getXPos()) {
+                if (this.yPos == (allMapElements.get(i).getHeight() + allMapElements.get(i).getYpos())) {
                     //Kollision unten
                     kollisionUnten = true;
                     this.setState("move");
-                }else if((this.yPos + this.height) == (allMapElements.get(i).getYpos())){
+                } else if ((this.yPos + this.height) == (allMapElements.get(i).getYpos())) {
                     //Kollision oben
                     this.setState("fall");
-                }else if((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
+                } else if ((this.xPos + this.width) == (allMapElements.get(i).getXPos()) && this.yPos < (allMapElements.get(i).getYpos()) + allMapElements.get(i).getHeight() && this.yPos > (allMapElements.get(i).getYpos())) {
                     //Kollision rechts
                     this.setState("fall");
-                }else if(this.heroState == "move" && kollisionUnten == false){
-                        this.setState("fall");
                 }
             }
+        }
+        if(!kollisionUnten && this.heroState.equals("move")){
+            this.setState("fall");
         }
     }
 
 
     public void heroEngine(){
-        if(this.xPos > 1400){
-            this.xPos = 0;
-            this.yPos = 300;
-        }
-        this.checkCollision();
-        //Aktualisierung des Helden
-        if(this.heroState == "jump"){
-            if(this.posEndJump > this.yPos) {
-                this.yPos += 20;
-                this.xPos += this.movementSpeed;
-            }else{
-                this.heroState = "fall";
+        if(this.yPos < -100 || this.heatLevel == 3){
+            if(this.heatLevel  == 3) {
+                this.molten = true;
+                this.setState("death");
             }
-        }
+            MyGdxGame.gameRunning = false;
+            Sounds.play("gameover");
+        }else {
+            if(this.oldHeatLevel != this.heatLevel){
+                if (this.oldHeatLevel < this.heatLevel) {
+                    Sounds.play("powerup");
+                }
+                this.oldHeatLevel = this.heatLevel;
+            }
 
-        if(this.heroState == "move"){
-            this.xPos += this.movementSpeed;
-        }
+            this.checkCollision();
+            //Aktualisierung des Helden
+            if (this.heroState == "jump") {
+                if (this.posEndJump > this.yPos) {
+                    this.yPos += 20;
+                    this.xPos += this.movementSpeed;
+                } else {
 
-        if(this.heroState == "fall"){
-            this.yPos -= this.gravity;
-            this.xPos += this.movementSpeed / 2;
+                    this.heroState = "fall";
+                }
+            }
+
+            if (this.heroState == "move") {
+                this.xPos += this.movementSpeed;
+                this.heat += 0.005f;
+                this.heatLevel = (int) this.heat;
+            }
+
+            if (this.heroState == "fall") {
+                this.yPos -= this.gravity;
+                this.xPos += this.movementSpeed;
+            }
         }
     }
 
     public Animation getCurAnimation(){
-        return animationContainer.get(heroState);
+
+        if(this.heatLevel == 0 || this.heatLevel == 3) {
+            return animationContainer.get(heroState);
+        }else{
+            return animationContainer.get(heroState+this.heatLevel);
+        }
+
     }
 
     private boolean prepareAnimations(){
-/*
-        //Move-Animation
-        img = new Texture("runningcat.png");
-
-        animationFrames = new TextureRegion[8];
-
-        TextureRegion[][] tmpFrames = TextureRegion.split(img, 512, 256);
-
-        int index = 0;
-
-        for (int i = 0; i < 2; i++){
-            for(int j = 0; j < 4; j++) {
-                animationFrames[index++] = tmpFrames[j][i];
-            }
-        }
-        animation = new Animation( 0.2f, animationFrames);
-        */
 
         img = new Texture("ball.png");
 
@@ -170,27 +182,71 @@ public class Hero {
             }
         }
 
-        animation = new Animation( 0.25f, animationFrames);
+        animation = new Animation( 0.178f, animationFrames);
 
         animationContainer.put("move", animation);
         animationContainer.put("fall", animation);
         animationContainer.put("jump", animation);
 
+        img = new Texture("ball2.png");
+
+        animationFrames = new TextureRegion[8];
+
+        TextureRegion[][] tmpFrames2 = TextureRegion.split(img, 105, 110);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 4; j++) {
+                animationFrames[index++] = tmpFrames2[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+
+        animationContainer.put("move1", animation);
+        animationContainer.put("fall1", animation);
+        animationContainer.put("jump1", animation);
+
+        img = new Texture("ball3.png");
+
+        animationFrames = new TextureRegion[8];
+
+        TextureRegion[][] tmpFrames3 = TextureRegion.split(img, 105, 110);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 4; j++) {
+                animationFrames[index++] = tmpFrames3[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+
+        animationContainer.put("move2", animation);
+        animationContainer.put("fall2", animation);
+        animationContainer.put("jump2", animation);
+
+
+        img = new Texture("death.png");
+
+        animationFrames = new TextureRegion[4];
+
+        TextureRegion[][] tmpFrames4 = TextureRegion.split(img, 105, 105);
+
+        index = 0;
+
+        for (int i = 0; i < 2; i++){
+            for(int j = 0; j < 2; j++) {
+                animationFrames[index++] = tmpFrames4[j][i];
+            }
+        }
+
+        animation = new Animation( 0.25f, animationFrames);
+        animationContainer.put("death", animation);
+
         return true;
-    }
-
-
-
-    public void move(){
-
-    }
-
-    public int getWidth(){
-        return this.width;
-    }
-
-    public int getHeight(){
-        return this.height;
     }
 
     public int getXpos(){
@@ -201,8 +257,12 @@ public class Hero {
         return this.yPos;
     }
 
-    public boolean setYpos(int newPos){
-        this.yPos = newPos;
-        return true;
+    public void lowerHeat(){
+        if(this.heat > 0f)
+            this.heat = this.heat -  0.20f;
+    }
+
+    public boolean getMolten(){
+        return this.molten;
     }
 }
