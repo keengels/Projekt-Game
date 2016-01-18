@@ -33,11 +33,14 @@ public class GameDraw extends ApplicationAdapter{
     private FreeTypeFontGenerator.FreeTypeFontParameter freeTypePar;
     private BitmapFont scoreFont;
     private int xOffset = 300;
+    private int height = Gdx.graphics.getHeight();
+    private int width = Gdx.graphics.getWidth();
 
     Score score;
     Map map;
     Hero hero;
     SpriteBatch batch;
+    SpriteBatch batchfont;
     OrthographicCamera cam;
     int oldXpos;
 
@@ -47,6 +50,7 @@ public class GameDraw extends ApplicationAdapter{
         this.map = map;
         this.score = score;
         this.oldXpos = hero.getXpos();
+        this.batchfont = new SpriteBatch();
 
         cam  = new OrthographicCamera(30, 30*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
         cam.position.set(hero.getXpos(), hero.getYpos(),0);
@@ -66,11 +70,12 @@ public class GameDraw extends ApplicationAdapter{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         ArrayList<MapElement> tmpMapElements = map.getMapElements();
+        float currentYpos = hero.getYpos();
 
         batch.setProjectionMatrix(cam.combined);
-        cam.position.set(hero.getXpos() + this.xOffset, hero.getYpos(), 0);
+        cam.position.set(hero.getXpos()+this.xOffset, currentYpos, 0);
         //Render Hero
-        batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
+        batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), currentYpos);
 
         //Render Mapelemente
         for(int i = 0; i < tmpMapElements.size(); i++){
@@ -84,8 +89,10 @@ public class GameDraw extends ApplicationAdapter{
             }
         }
         //Render Score
-        scoreFont.draw(batch, "Points:" + score.getScore(), (hero.getXpos() - (Gdx.graphics.getWidth() / 2))+this.xOffset, hero.getYpos()+(Gdx.graphics.getHeight()/2));
         batch.end();
+        batchfont.begin();
+        scoreFont.draw(batchfont, "Points:" + score.getScore(), 0, height - 50);
+        batchfont.end();
 
         if(oldXpos + 1000 < hero.getXpos()){
             oldXpos += 200;
@@ -93,6 +100,7 @@ public class GameDraw extends ApplicationAdapter{
             //map.removeMapElement(hero.getXpos());
 
         }
+
         //cam.position.set(hero.getXpos()+this.xOffset, hero.getYpos(), 0);
         cam.update();
     }

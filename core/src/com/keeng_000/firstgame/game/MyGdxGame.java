@@ -94,6 +94,10 @@ public class MyGdxGame extends ApplicationAdapter {
 			batch.begin();
 			if(hero.getMolten()) {
 				batch.draw(hero.getCurAnimation().getKeyFrame(elapsedTime, true), hero.getXpos(), hero.getYpos());
+			//for(int i = 0; i < tmpMapElements.size(); i++){
+			//	if(tmpMapElements.get(i) != null)
+			//		batch.draw(tmpMapElements.get(i).getTexture(), tmpMapElements.get(i).getXPos(), tmpMapElements.get(i).getYpos());
+			//}
 			}
 
 			loserFont.draw(batch, "Click for Restart", (hero.getXpos() - (Gdx.graphics.getWidth() / 3))+300, hero.getYpos());
