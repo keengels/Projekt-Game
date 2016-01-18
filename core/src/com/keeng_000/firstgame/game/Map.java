@@ -44,11 +44,6 @@ public class Map {
         for(int i = 0; i < 15; i++)
             mapElementStack.add(new MapElement(i * 200, 100));
         this.prepareWater();
-
-        int xPos = 0;
-        int yPos = 100;
-
-        //mapElements = this.createMap();
     }
 
     public Animation getWaterAnimation(){return this.waterAnimation;}
@@ -59,18 +54,6 @@ public class Map {
     public void updateBackgroundSky(int xPos){
         this.getBackGroundSkyXPos =(float)(xPos*(-0.1));
     }
-
-    public float getBackGroundSkyXPos(){
-        return this.getBackGroundSkyXPos;
-    }
-
-    public float getBackGroundSkyYPos(){
-        return this.backGroundSkyYPos;
-    }
-
-    public int getGroundPos(){return this.groundPos;}
-
-    public void setGroundPos(int ground){this.groundPos = ground;}
 
     private void prepareWater() {
         Texture img;
@@ -116,49 +99,5 @@ public class Map {
             mapElementStack.add(new MapElement(mapElementStack.get(size - 1).getXPos() + 200, 100));
         }
     }
-
-    public void removeMapElement(){
-
-        mapElementStack.remove(0);
-
-    }
-
-/*
-    public void addNewMapElement(){
-        if(mapElementStack.getLast() == null){
-
-            System.out.println("letztes Element ist null");
-            mapElementStack.add(new MapElement());
-        } else{
-            System.out.println("Map Element");
-            Random rand = new Random();
-            int i = rand.nextInt();
-            System.out.println(i%10);
-            if(i%10 > 5){
-                System.out.println("NULL ELEMENT");
-                mapElementStack.add(null);
-            } else{
-                System.out.println("NORMALES ELEMENT");
-                mapElementStack.add(new MapElement());
-            }
-        }
-    }
-*/
-    public ArrayList createMap(){
-        int xpos = 0;
-        ArrayList<MapElement> mapElements = new ArrayList<MapElement>();
-        for(int i = 0; i<100;i++){
-            if(i%10 == 3){
-                mapElements.add(new Ground(xpos, 400));
-                xpos += 200;
-            }else{
-                mapElements.add(new Ground(xpos, 100));
-                xpos += 200;
-            }
-        }
-        return mapElements;
-    }
 }
 
-
-//hallo miteinander
